@@ -34,16 +34,23 @@ header {
 }
 .container {
     width: 1300px;
+    margin: 0 auto;
     ul.topTabs {
         li {
             width: 50%;
             text-align: center;
             a {
                 display: block;
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.2);
+                }
             }
         }
         li#nowPlaying {
             text-align: left;
+        }
+        li.active {
+            background: #871B00;
         }
     }
     .collection {
@@ -89,10 +96,27 @@ header {
             display: block;
         }
     }
+    nav.playback {
+        margin-top: 13px;
+        ul {
+            text-align: center;
+            li {
+                width: 20%;
+                a {
+                    display: block;
+                    i {
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
 }
 #toast-container {
-    top: 15%;
-    right: 2.5%;
+    position: absolute;
+    top: 30%;
+    right: 50%;
+    transform: translateX(50%);
     div.toast {
         background: #dd2c00;
     }

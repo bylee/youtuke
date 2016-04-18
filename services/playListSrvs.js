@@ -10,9 +10,11 @@ angular.module("youtukeApp.plst.srvs", [])
             playList: [],
             cookies: null,
             relatedPlaylist: [],
+            listCtrl: null,
             currentIndex: 0,
             nowPlaying: null,
-            status: false
+            status: false,
+            pbStatus: 'pause'
         };
 
         // checking if the cookie is set
@@ -27,11 +29,6 @@ angular.module("youtukeApp.plst.srvs", [])
                 jukebox.playList = JSON.parse($cookies.get("playList"));
             }
         })();
-
-        // add an updated cookie whenever a playlist changes
-        function addCookies () {
-            $cookies.put("playList", JSON.stringify(jukebox.playList));
-        }
 
         // checking whether the playlist already contains the target video
         this.playListCtrl = function (source, target, exit) {
@@ -51,11 +48,14 @@ angular.module("youtukeApp.plst.srvs", [])
                 });
 
                 if (!tarObj) {
+                    jukebox.listCtrl = true;
                     target.push(srcObj);
                     if (exit) {
                         // when only one video from the related videos is added
                         break;
                     }
+                } else {
+                    jukebox.listCtrl = false;
                 }
             }
         };
@@ -78,7 +78,7 @@ angular.module("youtukeApp.plst.srvs", [])
                 box.playListCtrl(newVideo, jukebox.playList, true);
             }
             // a new video is added, update the cookie with a new playlist
-            addCookies();
+            $cookies.put("playList", JSON.stringify(jukebox.playList));
         };
 
         // start playing the video
@@ -96,7 +96,8 @@ angular.module("youtukeApp.plst.srvs", [])
             // update the video title in the view
             jukebox.nowPlaying = title;
             // update the cookie with a new playlist
-            addCookies();
+            $cookies.put("playList", JSON.stringify(jukebox.playList));
+            lapse = 0;
         };
 
         // remove the video from the playlist
@@ -108,7 +109,38 @@ angular.module("youtukeApp.plst.srvs", [])
                 }
             }
             // update the cookie with a new playlist
-            addCookies();
+            $cookies.put("playList", JSON.stringify(jukebox.playList));
+        };
+
+        // playback controls
+        this.pauseVideo = function () {
+            jukebox.player.pauseVideo();
+            jukebox.pbStatus = 'pause';
+        };
+        this.playVideo = function () {
+            jukebox.player.playVideo();
+            jukebox.pbStatus = 'playing';
+        };
+        this.nextVideo = function () {
+            box.startPlaying(jukebox.playList[jukebox.currentIndex+1].id, jukebox.playList[jukebox.currentIndex+1].title);
+        };
+        this.prevVideo = function () {
+            if (jukebox.playList[jukebox.currentIndex-1]) {
+                box.startPlaying(jukebox.playList[jukebox.currentIndex-1].id, jukebox.playList[jukebox.currentIndex-1].title);
+            } else {
+                box.startPlaying(jukebox.playList[jukebox.currentIndex[0]].id, jukebox.playList[jukebox.currentIndex[0]].title);
+            }
+        };
+
+        var lapse = 0;
+
+        this.backward = function () {
+            lapse += -5;
+            jukebox.player.seekTo(lapse, true);
+        };
+        this.forward = function () {
+            lapse += 5;
+            jukebox.player.seekTo(lapse, true);
         };
 
         // configure the youtube player
@@ -127,6 +159,7 @@ angular.module("youtukeApp.plst.srvs", [])
             });
         };
 
+        // fire when the player is ready
         function onPlayerReady (event) {
             $log.info("Youtube player is ready.");
             // set the status to true so the buttons in the view work
@@ -135,20 +168,25 @@ angular.module("youtukeApp.plst.srvs", [])
             // queue the first video in the playlist
             if (jukebox.playList[0]) {
                 jukebox.player.cueVideoById(jukebox.playList[0].id);
+                jukebox.nowPlaying = jukebox.playList[0].title;
             }
             $rootScope.$apply();
         }
 
+        // fire when the player state changes
         function onPlayerStateChange (event) {
             if (event.data == YT.PlayerState.PLAYING) {
                 $log.info("Video starting");
+                jukebox.pbStatus = 'playing';
                 // whenever a video starts playing, update the related videos for the current video
                 fetchData.getRequest(null, 20, null, jukebox.playList[jukebox.currentIndex].id);
                 jukebox.relatedPlaylist = fetchData.outputRelatedData();
             } else if (event.data == YT.PlayerState.PAUSED) {
                 $log.info("Video paused");
+                jukebox.pbStatus = 'pause';
             } else if (event.data == YT.PlayerState.ENDED) {
                 $log.info("Video ended");
+                jukebox.pbStatus = 'pause';
                 if (jukebox.playList[jukebox.currentIndex+1]) {
                     // when the playlist has a next video, start playing
                     box.startPlaying(jukebox.playList[jukebox.currentIndex+1].id, jukebox.playList[jukebox.currentIndex+1].title);
@@ -158,7 +196,7 @@ angular.module("youtukeApp.plst.srvs", [])
                     // start playing the added video
                     box.startPlaying(jukebox.playList[jukebox.currentIndex+1].id, jukebox.playList[jukebox.currentIndex+1].title);
                     // update the cookie with a new playlist
-                    addCookies();
+                    $cookies.put("playList", JSON.stringify(jukebox.playList));
                 }
             }
             $rootScope.$apply();
@@ -177,5 +215,15 @@ angular.module("youtukeApp.plst.srvs", [])
         // return the video status value
         this.playerStatus = function () {
             return jukebox.status;
+        };
+
+        // return playback status
+        this.playbackStatus = function () {
+            return jukebox.pbStatus;
+        };
+
+        // return playListCtrl result for dialog box
+        this.listControl = function () {
+            return jukebox.listCtrl;
         };
     }]);
