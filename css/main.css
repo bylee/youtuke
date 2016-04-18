@@ -1,0 +1,151 @@
+/* line 1, ../components/sass/main.scss */
+* {
+  box-sizing: border-box;
+}
+
+/* line 4, ../components/sass/main.scss */
+header {
+  text-align: center;
+}
+/* line 6, ../components/sass/main.scss */
+header div.row {
+  width: 1300px;
+}
+/* line 8, ../components/sass/main.scss */
+header div.row h1 {
+  color: white;
+  font-size: 3.5em;
+}
+/* line 12, ../components/sass/main.scss */
+header div.row form {
+  margin-top: 20px;
+}
+/* line 14, ../components/sass/main.scss */
+header div.row form i {
+  color: #9e9e9e;
+  cursor: pointer;
+  margin-top: 15px;
+}
+/* line 19, ../components/sass/main.scss */
+header div.row form label, header div.row form input {
+  margin-left: 4rem !important;
+}
+/* line 22, ../components/sass/main.scss */
+header div.row form input,
+header div.row form label.active,
+header div.row form i.active {
+  color: white !important;
+}
+/* line 27, ../components/sass/main.scss */
+header div.row form input[type=text].valid,
+header div.row form input[type=text]:focus:not([readonly]) {
+  border-bottom: 1px solid white;
+  box-shadow: 0 1px 0 0 white;
+}
+
+/* line 35, ../components/sass/main.scss */
+.container {
+  width: 1300px;
+  margin: 0 auto;
+}
+/* line 39, ../components/sass/main.scss */
+.container ul.topTabs li {
+  width: 50%;
+  text-align: center;
+}
+/* line 42, ../components/sass/main.scss */
+.container ul.topTabs li a {
+  display: block;
+}
+/* line 44, ../components/sass/main.scss */
+.container ul.topTabs li a:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+/* line 49, ../components/sass/main.scss */
+.container ul.topTabs li#nowPlaying {
+  text-align: left;
+}
+/* line 52, ../components/sass/main.scss */
+.container ul.topTabs li.active {
+  background: #871B00;
+}
+/* line 56, ../components/sass/main.scss */
+.container .collection {
+  border-radius: 0;
+}
+/* line 58, ../components/sass/main.scss */
+.container .collection li:hover {
+  background-color: #e0e0e0;
+}
+/* line 61, ../components/sass/main.scss */
+.container .collection li.center-align {
+  padding: 100px 0 !important;
+}
+/* line 65, ../components/sass/main.scss */
+.container .collection .collection-item.avatar .circle {
+  border-radius: 0;
+}
+/* line 69, ../components/sass/main.scss */
+.container .collection .collection-item.avatar span.secondary-content a.btn-floating {
+  margin: 0 5px;
+}
+/* line 77, ../components/sass/main.scss */
+.container div.playList .collection li {
+  padding: 30px;
+}
+/* line 80, ../components/sass/main.scss */
+.container div.playList .collection li span.secondary-content a.btn-floating {
+  margin: 0 5px;
+}
+/* line 87, ../components/sass/main.scss */
+.container iframe#player {
+  margin: 0.5rem 0 1rem 0;
+}
+/* line 91, ../components/sass/main.scss */
+.container ul.pagination li.active {
+  background-color: #DD2C00;
+}
+/* line 94, ../components/sass/main.scss */
+.container ul.pagination li a {
+  color: #ffffff;
+  display: block;
+}
+/* line 99, ../components/sass/main.scss */
+.container nav.playback {
+  margin-top: 13px;
+}
+/* line 101, ../components/sass/main.scss */
+.container nav.playback ul {
+  text-align: center;
+}
+/* line 103, ../components/sass/main.scss */
+.container nav.playback ul li {
+  width: 20%;
+}
+/* line 105, ../components/sass/main.scss */
+.container nav.playback ul li a {
+  display: block;
+}
+/* line 107, ../components/sass/main.scss */
+.container nav.playback ul li a i {
+  display: block;
+}
+
+/* line 115, ../components/sass/main.scss */
+#toast-container {
+  position: absolute;
+  top: 30%;
+  right: 50%;
+  -webkit-transform: translateX(50%);
+          transform: translateX(50%);
+}
+/* line 120, ../components/sass/main.scss */
+#toast-container div.toast {
+  background: #dd2c00;
+}
+
+/* line 124, ../components/sass/main.scss */
+footer {
+  margin: 0 auto;
+  width: 1300px;
+}

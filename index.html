@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="youtukeApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Youtuke - Youtube Music Player</title>
+    <meta name="author" content="Lyndon Chun">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body class="#212121 grey darken-4" ng-controller="youtukeCtrl" ng-init="makeRequest()" ng-cloak>
+    <header class="z-depth-2 #dd2c00 deep-orange accent-4">
+        <div class="row">
+            <div class="col s6">
+                <h1 class="valign">YouTuke Player</h1>
+            </div>
+            <div class="col s6">
+                <form ng-submit="makeRequest()">
+                    <div class="row">
+                        <div class="input-field col s5">
+                            <i class="material-icons prefix" ng-click="makeRequest();">search</i>
+                            <label for="icon_prefix">Search &amp; Listen</label>
+                            <input id="icon_prefix" type="text" class="validate" ng-model="query">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col s6">
+                <nav class="resultTab #dd2c00 deep-orange accent-4">
+                    <ul class="topTabs">
+                        <li ng-class="changeClass('currentTab', 'results')">
+                            <a class="waves-effect" ng-click="changeValues('currentTab', 'results')">
+                                Results
+                            </a>
+                        </li>
+                        <li ng-class="changeClass('currentTab', 'related')">
+                            <a class="waves-effect" ng-click="changeValues('currentTab', 'related')">
+                                Related Videos
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div ng-show="currentTab == 'results'">
+                    <ul class="collection">
+                        <li class="collection-item avatar" ng-repeat="video in data.videos | limitResults:currentPage:pageSize">
+                            <img ng-src="{{video.snippet.thumbnails.default.url}}" alt="{{video.snippet.title}}" class="circle responsive-img">
+                            <span class="title">{{video.snippet.title}}</span>
+                            <p>{{video.snippet.channelTitle}}</p>
+                            <span class="secondary-content">
+                                <a class="btn-floating #dd2c00 deep-orange accent-4 waves-effect" ng-click="playButton(video.id.videoId, video.snippet.title)">
+                                    <i class="material-icons">
+                                        play_arrow
+                                    </i>
+                                </a>
+                                <a class="btn-floating #dd2c00 deep-orange accent-4 waves-effect" ng-click="addButton(video.id.videoId, video.snippet.title)">
+                                    <i class="material-icons">
+                                        playlist_add
+                                    </i>
+                                </a>
+                            </span>
+                        </li>
+                    </ul>
+                    <ul class="pagination center-align">
+                        <li class="waves-effect" ng-class="changeClass('currentPage', $index+1)" ng-repeat="video in data.videos | resultCount:pageSize">
+                            <a ng-click="changeValues('currentPage', $index+1)">
+                                {{$index + 1}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div ng-show="currentTab == 'related'">
+                    <ul class="collection">
+                        <li class="collection-item avatar" ng-repeat="video in data.relatedVideos | limitResults:currentPage:pageSize">
+                            <img ng-src="{{video.snippet.thumbnails.default.url}}" alt="{{video.snippet.title}}" class="circle">
+                            <span class="title">{{video.snippet.title}}</span>
+                            <p>{{video.snippet.channelTitle}}</p>
+                            <span class="secondary-content">
+                                <a class="btn-floating #dd2c00 deep-orange accent-4 waves-effect" ng-click="playButton(video.id.videoId, video.snippet.title)">
+                                    <i class="material-icons">
+                                        play_arrow
+                                    </i>
+                                </a>
+                                <a class="btn-floating #dd2c00 deep-orange accent-4 waves-effect" ng-click="addButton(video.id.videoId, video.snippet.title)">
+                                    <i class="material-icons">
+                                        playlist_add
+                                    </i>
+                                </a>
+                            </span>
+                        </li>
+                        <li class="collection-item center-align" ng-show="!data.relatedVideos[0]">
+                            <p class="red-text">No Video in Playlist</p>
+                        </li>
+                    </ul>
+                    <ul class="pagination center-align">
+                        <li class="waves-effect" ng-class="changeClass('currentPage', $index+1)" ng-repeat="video in data.relatedVideos | resultCount:pageSize">
+                            <a ng-click="changeValues('currentPage', $index + 1)">
+                                {{$index + 1}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col s6">
+                <nav class="#dd2c00 deep-orange accent-4">
+                    <ul class="topTabs">
+                        <li id="nowPlaying" ng-class="changeClass('whichTab', 'player')">
+                            <a class="truncate waves-effect" ng-click="changeValues('whichTab', 'player')">Now Playing: {{nowPlaying}}</a>
+                        </li>
+                        <li ng-class="changeClass('whichTab', 'playlist')">
+                            <a class="waves-effect" ng-click="changeValues('whichTab', 'playlist')">Playlist</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="video-container" ng-show="whichTab == 'player'">
+                    <div id="player"></div>
+                </div>
+                <nav class="playback #dd2c00 deep-orange accent-4" ng-show="whichTab == 'player'">
+                    <div class="nav-wrapper">
+                        <ul>
+                            <li>
+                                <a class="waves-effect" ng-click="prev()">
+                                    <i class="large material-icons">skip_previous</i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="waves-effect" ng-click="backward()">
+                                    <i class="large material-icons">fast_rewind</i>
+                                </a>
+                            </li>
+                            <li ng-show="playerStatus == 'pause'">
+                                <a class="waves-effect" ng-click="changeValues('playerStatus', 'playing'); play()">
+                                    <i class="large material-icons">play_arrow</i>
+                                </a>
+                            </li>
+                            <li ng-show="playerStatus == 'playing'">
+                                <a class="waves-effect" ng-click="changeValues('playerStatus', 'pause'); pause()">
+                                    <i class="large material-icons">pause</i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="waves-effect" ng-click="forward()">
+                                    <i class="large material-icons">fast_forward</i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="waves-effect" ng-click="next()">
+                                    <i class="large material-icons">skip_next</i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="playList" ng-show="whichTab == 'playlist'">
+                    <ul class="collection">
+                        <li class="collection-item" ng-repeat="video in playList track by $index">
+                            <div>
+                                {{video.title}}
+                                <span class="secondary-content">
+                                    <a class="btn-floating #dd2c00 deep-orange accent-4 waves-effect" ng-click="resultPlayButton(video.id, video.title)">
+                                        <i class="material-icons">play_arrow</i>
+                                    </a>
+                                    <a class="btn-floating #dd2c00 deep-orange accent-4 waves-effect" ng-click="removeButton(video.id, video.title)">
+                                        <i class="material-icons">delete</i>
+                                    </a>
+                                </span>
+                            </div>
+                        </li>
+                        <li class="collection-item center-align" ng-show="!playList[0]">
+                            <p class="red-text">No Video in Playlist</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="right-align">
+        <p class="white-text">Source code available at <a href="https://github.com/oosniss/youtuke" class="red-text">GitHub</a></p>
+        <p class="white-text">Designed and Developed by <a href="http://lyndonchun.com" class="red-text">Lyndon Chun</a></p>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery-1.12.2.min.js"><\/script>')</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+    <script src="https://apis.google.com/js/client.js"></script>
+    <script src="https://code.angularjs.org/1.5.3/angular.min.js"></script>
+    <script>window.angular || document.write('<script src="js/angular.min.js"><\/script><script src="js/angular-route.min.js"><\/script><script src="js/angular-cookies.min.js"><\/script>');</script>
+    <script src="https://code.angularjs.org/1.5.3/angular-route.min.js"></script>
+    <script src="https://code.angularjs.org/1.5.3/angular-cookies.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="services/dataSrvs.js"></script>
+    <script src="services/playListSrvs.js"></script>
+    <script src="filters/limitResults.js"></script>
+    <script src="controllers/controller.js"></script>
+    <script src="//localhost:35729/livereload.js"></script>
+</body>
+</html>
