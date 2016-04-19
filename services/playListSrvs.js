@@ -30,6 +30,14 @@ angular.module("youtukeApp.plst.srvs", [])
             }
         })();
 
+<<<<<<< HEAD
+=======
+        // a new video is added, update the cookie with a new playlist
+        this.updateCookies = function () {
+            $cookies.put("playList", JSON.stringify(jukebox.playList));
+        };
+
+>>>>>>> gh-pages
         // checking whether the playlist already contains the target video
         this.playListCtrl = function (source, target, exit) {
             for (var i = 0; i < source.length; i++) {
@@ -78,7 +86,11 @@ angular.module("youtukeApp.plst.srvs", [])
                 box.playListCtrl(newVideo, jukebox.playList, true);
             }
             // a new video is added, update the cookie with a new playlist
+<<<<<<< HEAD
             $cookies.put("playList", JSON.stringify(jukebox.playList));
+=======
+            box.updateCookies();
+>>>>>>> gh-pages
         };
 
         // start playing the video
@@ -95,8 +107,13 @@ angular.module("youtukeApp.plst.srvs", [])
             jukebox.player.loadVideoById(id);
             // update the video title in the view
             jukebox.nowPlaying = title;
+<<<<<<< HEAD
             // update the cookie with a new playlist
             $cookies.put("playList", JSON.stringify(jukebox.playList));
+=======
+            // a new video is added, update the cookie with a new playlist
+            box.updateCookies();
+>>>>>>> gh-pages
             lapse = 0;
         };
 
@@ -108,8 +125,13 @@ angular.module("youtukeApp.plst.srvs", [])
                     break;
                 }
             }
+<<<<<<< HEAD
             // update the cookie with a new playlist
             $cookies.put("playList", JSON.stringify(jukebox.playList));
+=======
+            // a new video is added, update the cookie with a new playlist
+            box.updateCookies();
+>>>>>>> gh-pages
         };
 
         // playback controls
@@ -195,8 +217,13 @@ angular.module("youtukeApp.plst.srvs", [])
                     box.playListCtrl(jukebox.relatedPlaylist, jukebox.playList, true);
                     // start playing the added video
                     box.startPlaying(jukebox.playList[jukebox.currentIndex+1].id, jukebox.playList[jukebox.currentIndex+1].title);
+<<<<<<< HEAD
                     // update the cookie with a new playlist
                     $cookies.put("playList", JSON.stringify(jukebox.playList));
+=======
+                    // a new video is added, update the cookie with a new playlist
+                    box.updateCookies();
+>>>>>>> gh-pages
                 }
             }
             $rootScope.$apply();

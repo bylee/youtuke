@@ -7,7 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<<<<<<< HEAD
     <link rel="stylesheet" href="css/main.css">
+=======
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="icon" type="image/png" href="img/favicon.ico">
+>>>>>>> gh-pages
 </head>
 <body class="#212121 grey darken-4" ng-controller="youtukeCtrl" ng-init="makeRequest()" ng-cloak>
     <header class="z-depth-2 #dd2c00 deep-orange accent-4">
@@ -47,7 +53,11 @@
                 </nav>
                 <div ng-show="currentTab == 'results'">
                     <ul class="collection">
+<<<<<<< HEAD
                         <li class="collection-item avatar" ng-repeat="video in data.videos | limitResults:currentPage:pageSize">
+=======
+                        <li class="collection-item avatar" ng-repeat="video in data.videos | limitResults:resultsPagination:pageSize">
+>>>>>>> gh-pages
                             <img ng-src="{{video.snippet.thumbnails.default.url}}" alt="{{video.snippet.title}}" class="circle responsive-img">
                             <span class="title">{{video.snippet.title}}</span>
                             <p>{{video.snippet.channelTitle}}</p>
@@ -66,8 +76,13 @@
                         </li>
                     </ul>
                     <ul class="pagination center-align">
+<<<<<<< HEAD
                         <li class="waves-effect" ng-class="changeClass('currentPage', $index+1)" ng-repeat="video in data.videos | resultCount:pageSize">
                             <a ng-click="changeValues('currentPage', $index+1)">
+=======
+                        <li class="waves-effect" ng-class="changeClass('resultsPagination', $index+1)" ng-repeat="video in data.videos | resultCount:pageSize">
+                            <a ng-click="changeValues('resultsPagination', $index+1)">
+>>>>>>> gh-pages
                                 {{$index + 1}}
                             </a>
                         </li>
@@ -75,7 +90,11 @@
                 </div>
                 <div ng-show="currentTab == 'related'">
                     <ul class="collection">
+<<<<<<< HEAD
                         <li class="collection-item avatar" ng-repeat="video in data.relatedVideos | limitResults:currentPage:pageSize">
+=======
+                        <li class="collection-item avatar" ng-repeat="video in data.relatedVideos | limitResults:relatedPagination:pageSize">
+>>>>>>> gh-pages
                             <img ng-src="{{video.snippet.thumbnails.default.url}}" alt="{{video.snippet.title}}" class="circle">
                             <span class="title">{{video.snippet.title}}</span>
                             <p>{{video.snippet.channelTitle}}</p>
@@ -97,8 +116,13 @@
                         </li>
                     </ul>
                     <ul class="pagination center-align">
+<<<<<<< HEAD
                         <li class="waves-effect" ng-class="changeClass('currentPage', $index+1)" ng-repeat="video in data.relatedVideos | resultCount:pageSize">
                             <a ng-click="changeValues('currentPage', $index + 1)">
+=======
+                        <li class="waves-effect" ng-class="changeClass('relatedPagination', $index+1)" ng-repeat="video in data.relatedVideos | resultCount:pageSize">
+                            <a ng-click="changeValues('relatedPagination', $index + 1)">
+>>>>>>> gh-pages
                                 {{$index + 1}}
                             </a>
                         </li>
@@ -156,8 +180,13 @@
                     </div>
                 </nav>
                 <div class="playList" ng-show="whichTab == 'playlist'">
+<<<<<<< HEAD
                     <ul class="collection">
                         <li class="collection-item" ng-repeat="video in playList track by $index">
+=======
+                    <ul class="collection" ui-sortable="sortableOptions" ng-model="playList">
+                        <li class="collection-item" ng-repeat="video in playList | limitResults:playlistPagination:pageSize track by $index">
+>>>>>>> gh-pages
                             <div>
                                 {{video.title}}
                                 <span class="secondary-content">
@@ -174,6 +203,16 @@
                             <p class="red-text">No Video in Playlist</p>
                         </li>
                     </ul>
+<<<<<<< HEAD
+=======
+                    <ul class="pagination center-align">
+                        <li class="waves-effect" ng-class="changeClass('playlistPagination', $index+1)" ng-repeat="video in playList | resultCount:pageSize track by $index">
+                            <a ng-click="changeValues('playlistPagination', $index + 1)">
+                                {{$index + 1}}
+                            </a>
+                        </li>
+                    </ul>
+>>>>>>> gh-pages
                 </div>
             </div>
         </div>
@@ -184,12 +223,20 @@
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="js/jquery-1.12.2.min.js"><\/script>')</script>
+<<<<<<< HEAD
+=======
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+>>>>>>> gh-pages
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
     <script src="https://apis.google.com/js/client.js"></script>
     <script src="https://code.angularjs.org/1.5.3/angular.min.js"></script>
     <script>window.angular || document.write('<script src="js/angular.min.js"><\/script><script src="js/angular-route.min.js"><\/script><script src="js/angular-cookies.min.js"><\/script>');</script>
     <script src="https://code.angularjs.org/1.5.3/angular-route.min.js"></script>
     <script src="https://code.angularjs.org/1.5.3/angular-cookies.min.js"></script>
+<<<<<<< HEAD
+=======
+    <script src="js/sortable.js"></script>
+>>>>>>> gh-pages
     <script src="js/app.js"></script>
     <script src="services/dataSrvs.js"></script>
     <script src="services/playListSrvs.js"></script>
