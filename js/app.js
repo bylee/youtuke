@@ -1,4 +1,4 @@
-angular.module("youtukeApp", ["ngCookies", "youtukeApp.data.srvs", "youtukeApp.plst.srvs", "youtukeApp.filters", "youtukeApp.ctrl"])
+angular.module("youtukeApp", ["ngCookies", "ui.sortable", "youtukeApp.data.srvs", "youtukeApp.plst.srvs", "youtukeApp.filters", "youtukeApp.ctrl"])
     .run(function () {
         var tag = document.createElement('script');
         tag.src = "http://www.youtube.com/iframe_api";

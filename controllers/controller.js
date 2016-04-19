@@ -14,7 +14,9 @@ angular.module("youtukeApp.ctrl", [])
         $scope.pageSize = 5;
 
         // store values for ng-show and ng-class
-        $scope.currentPage = 1;
+        $scope.resultsPagination = 1;
+        $scope.relatedPagination = 1;
+        $scope.playlistPagination = 1;
         $scope.currentTab = "results";
         $scope.whichTab = "player";
         $scope.playerStatus = "pause";
@@ -125,5 +127,12 @@ angular.module("youtukeApp.ctrl", [])
         };
         $scope.forward = function () {
             playList.forward();
+        };
+
+        // event callbacks for playlist drag and drop
+        $scope.sortableOptions = {
+            stop: function () {
+                playList.updateCookies();
+            }
         };
     }]);

@@ -91,47 +91,48 @@ header div.row form input[type=text]:focus:not([readonly]) {
 }
 /* line 77, ../components/sass/main.scss */
 .container div.playList .collection li {
+  cursor: move;
   padding: 30px;
 }
-/* line 80, ../components/sass/main.scss */
+/* line 81, ../components/sass/main.scss */
 .container div.playList .collection li span.secondary-content a.btn-floating {
   margin: 0 5px;
 }
-/* line 87, ../components/sass/main.scss */
+/* line 88, ../components/sass/main.scss */
 .container iframe#player {
   margin: 0.5rem 0 1rem 0;
 }
-/* line 91, ../components/sass/main.scss */
+/* line 92, ../components/sass/main.scss */
 .container ul.pagination li.active {
   background-color: #DD2C00;
 }
-/* line 94, ../components/sass/main.scss */
+/* line 95, ../components/sass/main.scss */
 .container ul.pagination li a {
   color: #ffffff;
   display: block;
 }
-/* line 99, ../components/sass/main.scss */
+/* line 100, ../components/sass/main.scss */
 .container nav.playback {
   margin-top: 13px;
 }
-/* line 101, ../components/sass/main.scss */
+/* line 102, ../components/sass/main.scss */
 .container nav.playback ul {
   text-align: center;
 }
-/* line 103, ../components/sass/main.scss */
+/* line 104, ../components/sass/main.scss */
 .container nav.playback ul li {
   width: 20%;
 }
-/* line 105, ../components/sass/main.scss */
+/* line 106, ../components/sass/main.scss */
 .container nav.playback ul li a {
   display: block;
 }
-/* line 107, ../components/sass/main.scss */
+/* line 108, ../components/sass/main.scss */
 .container nav.playback ul li a i {
   display: block;
 }
 
-/* line 115, ../components/sass/main.scss */
+/* line 116, ../components/sass/main.scss */
 #toast-container {
   position: absolute;
   top: 30%;
@@ -139,12 +140,12 @@ header div.row form input[type=text]:focus:not([readonly]) {
   -webkit-transform: translateX(50%);
           transform: translateX(50%);
 }
-/* line 120, ../components/sass/main.scss */
+/* line 121, ../components/sass/main.scss */
 #toast-container div.toast {
   background: #dd2c00;
 }
 
-/* line 124, ../components/sass/main.scss */
+/* line 125, ../components/sass/main.scss */
 footer {
   margin: 0 auto;
   width: 1300px;

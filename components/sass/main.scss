@@ -75,6 +75,7 @@ header {
     div.playList {
         .collection {
             li {
+                cursor: move;
                 padding: 30px;
                 span.secondary-content {
                     a.btn-floating {
